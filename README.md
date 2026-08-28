@@ -13,6 +13,15 @@ The training pipeline has two stages:
 1. **Cold-start SFT** on policy-level reasoning traces distilled from Gemini 2.5 Flash.
 2. **GRPO alignment** with rule-based format, safety-label, and category-label rewards.
 
+
+## Open-sourced Qwen2.5 GSPR Checkpoint
+
+We open-source our reproducible GSPR Qwen2.5 checkpoint at https://huggingface.co/teapotlid/GSPR_Qwen2.5. Feel free to try it out and leave your comments.
+
+## Joining our GSPR Project
+
+We are currently extending GSPR to agentic safety, multi-modal, and multi-lingual scenarios. If you would like to test or contribute to our model, feel free to contact me and let me know by emailing hlibt@connect.ust.hk.
+
 ## Paper summary
 
 The paper trains on 19 taxonomies containing 167 policies from Aegis, WildGuard, OR-Bench, GUARDSET-X, BeaverTails, and SafeRLHF. Evaluation covers both taxonomies seen during training and unseen taxonomies from OpenAI Moderation, HEx-PHI, T2T, and Do-Not-Answer.

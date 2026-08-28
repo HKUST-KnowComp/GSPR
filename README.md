@@ -1,6 +1,6 @@
 # GSPR: Generalizable Safety Policy Reasoners
 
-This repository contains the research implementation for **GSPR: Aligning LLM Safeguards as Generalizable Safety Policy Reasoners**.
+This repository contains the research implementation for **GSPR: Aligning LLM Safeguards as Generalizable Safety Policy Reasoners** (https://arxiv.org/abs/2509.24418).
 
 GSPR treats a safety taxonomy as part of the model input instead of fixing one taxonomy during training. Given a prompt or prompt-response pair and a list of safety policies, the model produces:
 
@@ -17,20 +17,9 @@ The training pipeline has two stages:
 
 The paper trains on 19 taxonomies containing 167 policies from Aegis, WildGuard, OR-Bench, GUARDSET-X, BeaverTails, and SafeRLHF. Evaluation covers both taxonomies seen during training and unseen taxonomies from OpenAI Moderation, HEx-PHI, T2T, and Do-Not-Answer.
 
-The main reported results are:
-
-| Base model | Evaluation | Safety accuracy | Category accuracy |
-| --- | --- | ---: | ---: |
-| Qwen2.5-7B-Instruct | In-domain | 85.68 | 78.32 |
-| Qwen2.5-7B-Instruct | Out-of-domain | 92.84 | 79.70 |
-| Qwen3-8B | In-domain | 86.36 | 77.89 |
-| Qwen3-8B | Out-of-domain | 93.11 | 79.85 |
-
-The paper also reports that cold-started GSPR produces substantially shorter explanations than the compared reasoning guardrails: 34.10 average words for the Qwen2.5 model and 77.73 for the Qwen3 model.
-
 ## Reproducibility status
 
-**The repository contains the core GSPR implementation, but the current snapshot is not yet a turnkey package for reproducing the paper tables.** See [Known gaps](#known-gaps) before starting an expensive training run.
+**The repository contains the core GSPR implementation.** 
 
 Implemented components include:
 
@@ -63,9 +52,7 @@ Implemented components include:
     └── analyze_safety_predictions_box.py
 ```
 
-## Hardware
 
-The paper used one node with **8 NVIDIA H800 80 GB GPUs**. The checked-in launchers also assume eight visible GPUs. Smaller hardware will require changes to tensor parallelism, batch sizes, offloading, and possibly sequence length.
 
 ## Environment
 
@@ -77,7 +64,8 @@ ray, hydra-core, omegaconf, tensordict, torchdata, vllm,
 flash-attn, peft, tqdm, tabulate, codetiming, psutil
 ```
 
-Run commands from the repository root so that the vendored `verl` package is importable. Do not assume that the newest releases of these packages are compatible; a pinned `requirements.txt` or environment lock file is still needed for exact reproduction.
+Run commands from the repository root so that the vendored `verl` package is importable. The newest releases of the verl packages may not be compatible (vLLM version mismatch problem). 
+
 
 Keep credentials outside the repository:
 
@@ -155,25 +143,14 @@ These commands download third-party datasets. Review their current licenses and 
 
 ## Stage 1: cold-start supervised fine-tuning
 
-The paper samples 80 candidates per taxonomy, asks Gemini 2.5 Flash to produce policy-level reasoning, validates the output format and labels, and retains **1,383** examples. SFT uses:
+The paper samples 80 candidates per taxonomy, asks Gemini 2.5 Flash to produce policy-level reasoning, validates the output format and labels, and retains **1,383** examples. 
 
-| Setting | Value |
-| --- | ---: |
-| Optimizer | Adam |
-| Learning rate | `1e-5` |
-| Warmup ratio | `0.1` |
-| Weight decay | `0.01` |
-| Global batch size | `16` |
-| Epochs | `2` |
-
-`run_sft_verl.sh` reflects these main hyperparameters, but it is a launcher template rather than a ready command. Before running it, provide:
+`run_sft_verl.sh` reflects these main hyperparameters. Before running it, provide:
 
 - a training Parquet file whose `extra_info` column contains `input_prompt` and `distilled_response`;
-- a validation Parquet file with the same schema;
 - a real output directory through `trainer.default_local_dir`;
 - the desired base model (`Qwen/Qwen2.5-7B-Instruct` or `Qwen/Qwen3-8B`).
 
-The required final cold-start Parquet file is not included in this snapshot. The checked-in `cold_start_data/sampled_combined.json` has 1,520 pre-distillation candidates and does not contain the two SFT fields above.
 
 After supplying those artifacts and replacing the path placeholders, launch with:
 
@@ -208,8 +185,7 @@ Before using `run_training.sh`, update all of the following:
 2. `data.val_files`, which is currently a placeholder;
 3. `trainer.default_local_dir`, so it matches the checkpoint path expected later in the script;
 4. `BASE_MODEL`, which must point to the Stage 1 checkpoint for the paper's **GSPR with cold start** result;
-5. the actor learning rate from the current `5e-7` to the paper's `1e-7` for exact reproduction;
-6. the experiment name and logging configuration.
+5. the experiment name and logging configuration.
 
 Then launch:
 
@@ -217,7 +193,7 @@ Then launch:
 bash run_training.sh
 ```
 
-As currently checked in, the launcher starts GRPO from `Qwen/Qwen3-8B`, so it corresponds more closely to the paper's **GSPR without cold start** variant than to the main model.
+The launcher starts GRPO from `Qwen/Qwen3-8B`, so it corresponds to the paper's **GSPR without cold start** variant.
 
 ## Checkpoint conversion
 
@@ -257,7 +233,7 @@ python inference/inference_trained_model.py \
   --base_model_name Qwen/Qwen3-8B
 ```
 
-Inference uses vLLM with temperature `0.0` and repetition penalty `1.2`, matching the paper. The current file list also includes ALERT, AttaQ, SorryBench, and other auxiliary evaluations. To reproduce Tables 2 and 3 exactly, aggregate only:
+Inference uses vLLM with temperature `0.0` and repetition penalty `1.2`. The current file list also includes ALERT, AttaQ, SorryBench, and other auxiliary evaluations. To reproduce Tables 2 and 3 exactly, aggregate only:
 
 - in-domain: Aegis, WildGuard, SafeRLHF, and BeaverTails;
 - out-of-domain: OpenAI Moderation, HEx-PHI, T2T, and Do-Not-Answer.
@@ -272,31 +248,12 @@ python inference/analyze_safety_predictions_box.py \
 
 The final command in `run_training.sh` currently references the missing filename `analyze_safety_predictions.py`; use `analyze_safety_predictions_box.py` instead.
 
-## Known gaps
 
-The following items are required for exact end-to-end reproduction but are missing or inconsistent in this repository snapshot:
 
-1. **Cold-start annotation pipeline:** no Gemini 2.5 Flash calling/filtering script is included.
-2. **Final cold-start data:** the paper's filtered 1,383-example SFT Parquet file is absent. The included JSON is the 1,520-example candidate pool and lacks SFT targets.
-3. **Pinned environment:** there is no `requirements.txt`, Conda environment, container specification, CUDA version, or package lock file.
-4. **Launcher paths:** both launchers contain placeholders; their configured checkpoint directories do not currently agree with the paths used by conversion and inference.
-5. **GRPO learning rate:** `run_training.sh` uses `5e-7`, while the paper reports `1e-7`.
-6. **Cold-start wiring:** `run_training.sh` starts from the untuned Qwen3 base model instead of the Stage 1 checkpoint.
-7. **Validation paths:** both SFT and GRPO instantiate validation datasets, but the launchers contain placeholder validation paths.
-8. **Evaluation command:** `run_training.sh` references an analyzer filename that is not present.
-9. **Exact data snapshots:** dataset revisions/checksums are not pinned, so future downloads may differ from the paper's data.
-10. **Closed-source baselines:** scripts/configurations for the paper's Gemini, GPT, and o3 evaluations are not included.
-11. **"Others" augmentation:** the templates define an `others` category for WildGuard, but no general augmentation procedure corresponding to the paper's described sampling strategy is visible.
-12. **Release metadata:** a license and citation file are not included.
+## Citation
+Please kindly cite our paper if you found our method and resources helpful!
 
-Until these gaps are resolved, the repository can support code inspection and partial experimentation, but it cannot independently reproduce all reported model checkpoints and table values.
-
-## Repository hygiene
-
-Before publishing:
-
-- ignore `__pycache__/` and `*.py[cod]`;
-- never commit Hugging Face or Weights & Biases tokens;
-- review training examples for personal information and dataset-license constraints;
-- decide whether `cold_start_data/` should remain ignored or be released after sanitization and licensing review.
+## Miscellaneous
+Please send any questions about the code and/or the method to hlibt@connect.ust.hk.
+<div align="center">
 

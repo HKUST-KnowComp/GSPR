@@ -1,0 +1,46 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and credentials
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# OS and editor metadata
+.DS_Store
+.idea/
+.vscode/
+
+# Runtime caches and logs
+.triton_cache/
+wandb/
+*.log
+tmp/
+
+# Generated data, checkpoints, and results
+models/
+.model_save/
+datasets/
+datasets_old/
+datasets_test_box/
+datasets_box/
+datasets_box_bug/
+datasets_rsafe/
+datasets_rsafe_old/
+outputs/
+result/
+response_code/datasets/
+
+# Cold-start artifacts may contain generated PII or credential-like text.
+# Keep the preparation script, but do not publish generated datasets.
+cold_start_data/*.json
+cold_start_data/*.jsonl
+cold_start_data/*.parquet
+cold_start_data/*.csv

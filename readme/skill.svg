@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="64" viewBox="0 0 168 64" role="img" aria-labelledby="title desc">
+  <title id="title">Format Check</title>
+  <desc id="desc">GSPR3 Skill</desc>
+  <rect x="0.75" y="0.75" width="166.5" height="62.5" rx="12" fill="#EFFAF5" stroke="#C6E4D7" stroke-width="1.5"/>
+
+  <ellipse cx="29" cy="49" rx="18" ry="3" fill="#CDEBDD"/>
+  <rect x="14" y="15" width="27" height="34" rx="4" fill="#32A984" stroke="#238968" stroke-width="1.2" transform="rotate(-6 28 32)"/>
+  <rect x="16" y="14" width="25" height="32" rx="3" fill="#FFFFFF" stroke="#82CDB3" stroke-width="1.2"/>
+  <rect x="22" y="11" width="13" height="6" rx="2" fill="#48B894" stroke="#238968" stroke-width="1"/>
+  <path d="m20 24 1.8 1.8L25 22m-5 11 1.8 1.8L25 31" fill="none" stroke="#2BA67F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M29 24h7m-7 9h6M20 40h10" stroke="#ACCEC3" stroke-width="1.7" stroke-linecap="round"/>
+  <circle cx="40" cy="42" r="8" fill="#8563D8" stroke="#F0FAF6" stroke-width="2"/>
+  <path d="m36.5 42 2.2 2.2 4.5-4.6" fill="none" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m45 11 1.1 2.9L49 15l-2.9 1.1L45 19l-1.1-2.9L41 15l2.9-1.1Z" fill="#AD8AE9"/>
+
+  <text x="57" y="28" fill="#203440" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Format Check</text>
+  <text x="57" y="46" fill="#576A75" font-family="Arial, Helvetica, sans-serif" font-size="12">GSPR3 Skill</text>
+</svg>

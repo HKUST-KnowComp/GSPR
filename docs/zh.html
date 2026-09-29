@@ -20,7 +20,7 @@
   <div class="reading-progress" aria-hidden="true"><span id="reading-progress"></span></div>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="#top" aria-label="GSPR 首页"><span class="brand-mark" aria-hidden="true">G</span>GSPR<span class="brand-separator">/</span><span class="brand-detail">研究笔记</span></a>
+      <a class="brand company-brand" href="#top" aria-label="Mode IO · GSPR 首页"><img class="company-logo" src="assets/mode-io-logo.svg" width="309" height="394" alt="Mode IO 标志"><span class="brand-copy"><span>GSPR</span><span class="brand-company">Mode IO</span></span><span class="brand-separator">/</span><span class="brand-detail">研究笔记</span></a>
       <div class="header-actions"><nav aria-label="主导航"><a href="#story">阅读博客</a><a href="https://arxiv.org/abs/2509.24418" target="_blank" rel="noopener noreferrer">论文</a><a class="nav-github" href="https://github.com/HKUST-KnowComp/GSPR" target="_blank" rel="noopener noreferrer"><svg viewbox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.76-.24.76-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.29-1.25-1.63-1.25-1.63-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.71 2.62 1.22 3.27.93.1-.72.39-1.22.71-1.5-2.5-.28-5.12-1.25-5.12-5.56 0-1.23.44-2.24 1.15-3.03-.12-.28-.5-1.43.1-2.98 0 0 .94-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.55.23 2.7.11 2.98.71.79 1.14 1.8 1.14 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.03.76 2.08v3.09c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z"></path></svg><span>GitHub</span></a></nav><div class="language-switch" role="group" aria-label="语言选择"><a class="language-option" href="index.html" lang="en" hreflang="en" aria-label="Switch to English">EN</a><a class="language-option" href="zh.html" lang="zh-CN" hreflang="zh-CN" aria-label="阅读中文版" aria-current="page">中文</a></div></div>
     </div>
   </header>
@@ -32,7 +32,7 @@
         <p class="hero-subtitle">GSPR：迈向可泛化的<br>安全策略推理模型</p>
         <p class="hero-description">应用场景在变，安全规则也在变。<br>安全防护模型应当能够理解并应用这些规则。</p>
         <div class="hero-actions"><a class="button primary" href="https://arxiv.org/abs/2509.24418" target="_blank" rel="noopener noreferrer">阅读论文</a><a class="button secondary" href="https://huggingface.co/teapotlid/GSPR_Qwen2.5" target="_blank" rel="noopener noreferrer">获取模型</a></div>
-        <div class="hero-byline"><span class="byline-mark">G</span><span><strong>Haoran Li 与 GSPR 团队</strong><br>香港科技大学 KnowComp <span class="meta-dot">·</span> 2026 年 9 月</span></div>
+        <div class="hero-byline"><a class="author-avatar" href="https://teapotliid.github.io/" target="_blank" rel="noopener noreferrer" aria-label="访问 Haoran Li 的个人主页"><img src="assets/haoran-li.jpg" width="4096" height="3072" alt="Haoran Li" decoding="async"></a><span><strong><a class="author-link" href="https://teapotliid.github.io/" target="_blank" rel="noopener noreferrer">Haoran Li</a> 与 GSPR 团队</strong><br>Mode IO <span class="meta-dot">·</span> 2026 年 9 月</span></div>
       </div>
       <div class="hero-visual">
         <div class="diagram-caption"><span>一张图读懂 GSPR</span><span>图 01</span></div>
@@ -71,7 +71,7 @@
             <div class="lab-prompt"><span class="code-label">待评估请求 · 保持不变</span><p>“帮我的课程论文起草一段文字。 <br>我会说明使用了 AI 辅助。”</p></div>
             <div class="policy-choices" role="group" aria-label="选择示例课程规则"><button class="policy-choice selected" data-policy="independent" aria-pressed="true"><span>规则 A</span>独立完成写作</button><button class="policy-choice" data-policy="disclosed" aria-pressed="false"><span>规则 B</span>允许披露后的 AI 辅助</button></div>
             <div class="lab-grid"><div class="lab-policy"><span class="code-label">适用规则</span><h3>学术诚信</h3><p id="policy-description">学生必须独立撰写所有提交的文字。不允许使用 AI 生成的文字，即使说明了使用情况也不例外。</p></div><div class="lab-output" aria-live="polite" aria-atomic="true"><div class="output-heading"><span class="code-label">示例判断</span><span id="decision-badge" class="decision-badge unsafe">不安全</span></div><code id="decision-code">\safety{unsafe}<br>\category{Academic integrity}</code><p id="policy-explanation">说明使用了 AI，并不能替代这门课程要求的独立写作。</p></div></div>
-            <p class="lab-disclaimer">规则与判断均为手写教学示例，并非 GSPR 实时推理结果。实际规则及模型表现仍需单独评估。</p>
+            <p class="lab-disclaimer">规则与判断均为手写教学示例。实际规则及模型表现仍需单独评估。</p>
           </div>
           <p>GSPR 将判断对规则的依赖明确地体现出来。开发者可以在推理时更换规则列表，而不必从头训练模型。但这种灵活性并不保证模型能在任意新分类体系上表现良好：面对陌生的定义，仍然需要认真测试。</p>
         </section>
@@ -108,7 +108,7 @@
             </div>
             <div class="chart-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
             <div class="result-insight" aria-live="polite" aria-atomic="true"><strong id="chart-gain">+25.24<span>个百分点</span></strong><p id="chart-insight">在未见过的分类体系上，经过冷启动 SFT 与 GRPO 后，相较 Qwen2.5 基座模型的类别准确率提升。</p></div>
-            <p class="chart-source" id="chart-source">选取相同基座模型进行比较，数据来自 <a href="https://arxiv.org/html/2509.24418v2#S4.T3" target="_blank" rel="noopener noreferrer">表 3</a>。总体分数保留论文报告值；pp 表示百分点。结果反映基准测试表现，并不保证新部署场景的效果。</p>
+            <p class="chart-source" id="chart-source">选取相同基座模型进行比较，数据来自 <a href="https://arxiv.org/html/2509.24418v2#S4.T3" target="_blank" rel="noopener noreferrer">表 3</a>。总体分数保留论文报告值；pp 表示百分点。</p>
           </div>
           <p>实验最突出的发现体现在 <strong>细粒度推理</strong>上。在 Qwen2.5 基座上，先进行冷启动 SFT 再进行 GRPO，将域外类别准确率从 56.11% 提升至 79.70%。与给出安全二分类标签相比，准确识别风险类别仍然更难。</p>
           <div class="evidence-note"><span class="evidence-number">34.10</span><div><strong>每次回复的平均词数</strong><p>在论文的域内输出分析中，经过冷启动的 Qwen2.5 GSPR 模型能够生成简洁回复。这里统计的是英文单词数，不是推理延迟或 token 开销。 <a href="https://arxiv.org/html/2509.24418v2#S4.T4" target="_blank" rel="noopener noreferrer">表 4</a></p></div></div>
@@ -132,20 +132,23 @@
         <section id="join" class="article-section join-section">
           <p class="section-kicker">06 / 参与 GSPR</p>
           <h2>覆盖更多场景，<br>完善安全规则。</h2>
-          <p>我们正在将 GSPR 扩展到智能体安全、多模态输入、多语言环境与领域特定规则。如果你正在研究安全数据，或希望在新的场景中测试模型，欢迎与我们联系。</p>
-          <div class="join-tags"><span>多模态</span><span>多语言</span><span>领域特定规则</span><span>智能体安全</span></div>
+          <h3 class="prose-heading future-heading">未来工作</h3>
+          <p>在 Mode IO，我们正在将 GSPR 扩展到多模态、多语言和智能体安全场景，希望让基于规则的安全推理覆盖更丰富的输入、更多语言，以及智能体执行的各类操作。</p>
+          <div class="join-tags"><span>多模态</span><span>多语言</span><span>智能体安全</span></div>
+          <p><strong>欢迎各类数据与计算资源的支持。</strong> 我们欢迎各类数据贡献，以及用于训练和评估的计算资源。数据集、标注、评估场景、GPU 算力和云计算额度，都能帮助推进这项工作。欢迎联系我们，一起贡献、测试与合作。</p>
           <div class="resource-card"><div class="resource-icon" aria-hidden="true">{ }</div><div><span class="eyebrow">数据贡献工具</span><h3>GSPR3 数据格式检查 Skill</h3><p>为下一阶段的 GSPR 准备数据时，可使用该工具检查 JSONL 结构、安全标签、规则类别、图像对齐及标注冲突。</p><a href="assets/gspr3-format-check.zip" class="button primary" download>下载 Skill</a><a href="assets/gspr3-format-check/SKILL.md" class="text-link" target="_blank" rel="noopener noreferrer">阅读格式规范</a></div></div>
           <details class="figure-details"><summary>如何使用数据检查工具<span class="details-icon" aria-hidden="true">+</span></summary><div class="checker-guide"><p>解压工具包后，在解压所得文件夹的上一级目录运行 Python 检查脚本：</p><div class="code-box"><button class="copy-button" data-copy="checker-command">复制</button><pre id="checker-command">python3 gspr3-format-check/scripts/check_gspr3_jsonl.py \
   incoming.jsonl --mode auto --report incoming.report.json</pre></div><p>训练前请检查并处理报告中的错误。保留原始输入，将修正后的数据另存。该工具用于验证 GSPR3 数据贡献格式，不执行内容审核，也不用于复现原始 GSPR 实验。</p></div></details>
-          <div class="contact-line"><span>希望贡献数据，或有问题交流？</span><a href="mailto:hlibt@connect.ust.hk">hlibt@connect.ust.hk</a></div>
+          <div class="contact-line"><span>希望提供数据、算力，或交流合作想法？</span><a href="mailto:hlibt@connect.ust.hk">hlibt@connect.ust.hk</a></div>
           <div class="resource-links"><a href="https://github.com/HKUST-KnowComp/GSPR" target="_blank" rel="noopener noreferrer"><span>01</span><strong>代码</strong><small>训练与评估</small></a><a href="https://arxiv.org/abs/2509.24418" target="_blank" rel="noopener noreferrer"><span>02</span><strong>论文</strong><small>方法与实验</small></a><a href="https://huggingface.co/teapotlid/GSPR_Qwen2.5" target="_blank" rel="noopener noreferrer"><span>03</span><strong>模型</strong><small>Qwen2.5 模型权重</small></a></div>
           <details class="figure-details citation-details"><summary>引用 GSPR<span class="details-icon" aria-hidden="true">+</span></summary><div class="code-box"><button class="copy-button" data-copy="citation">复制 BibTeX</button><pre id="citation">@misc{li2025gspr,
-  title = {GSPR: Aligning LLM Safeguards as Generalizable Safety Policy Reasoners},
+  title = {{GSPR}: Aligning {LLM} Safeguards as Generalizable Safety Policy Reasoners},
   author = {Haoran Li and Jingru Zeng and Yulin Chen and Huihao Jing and Wenbin Hu and Hao Peng and Haochen Shi and Xi Yang and Ziqian Zeng and Sirui Han and Yangqiu Song},
   year = {2025},
   eprint = {2509.24418},
   archivePrefix = {arXiv},
   primaryClass = {cs.CR},
+  doi = {10.48550/arXiv.2509.24418},
   url = {https://arxiv.org/abs/2509.24418}
 }</pre></div></details>
           <p class="article-colophon">本文依据 <a href="https://arxiv.org/html/2509.24418v2" target="_blank" rel="noopener noreferrer">GSPR, arXiv v2</a> 及作者提供的分类体系分析撰写。项目资源核对于 2026 年 9 月。</p>
@@ -153,7 +156,7 @@
       </article>
     </div>
   </main>
-  <footer class="site-footer page-width"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">G</span>GSPR</a><p>可泛化的安全策略推理模型<br><span>GSPR 团队的研究项目。</span></p><a href="https://github.com/HKUST-KnowComp/GSPR" target="_blank" rel="noopener noreferrer">代码与资源</a></footer>
+  <footer class="site-footer page-width"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">G</span>GSPR</a><p>可泛化的安全策略推理模型<br><span>Mode IO · GSPR 团队。</span></p><a href="https://github.com/HKUST-KnowComp/GSPR" target="_blank" rel="noopener noreferrer">代码与资源</a></footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

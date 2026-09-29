@@ -1,6 +1,17 @@
 # GSPR: Generalizable Safety Policy Reasoners
 
-This repository contains the research implementation for **GSPR: Aligning LLM Safeguards as Generalizable Safety Policy Reasoners** (https://arxiv.org/abs/2509.24418).
+<p align="center">
+  <img src="docs/assets/mode-io-logo.svg" alt="Mode IO" height="88">
+</p>
+
+<p align="center">
+  <a href="https://arxiv.org/abs/2509.24418"><img src="https://img.shields.io/badge/Paper-arXiv-B31B1B?style=flat-square&amp;logo=arxiv&amp;logoColor=white" alt="Paper on arXiv"></a>
+  <a href="https://huggingface.co/teapotlid/GSPR_Qwen2.5"><img src="https://img.shields.io/badge/Checkpoint-Qwen2.5-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=black" alt="GSPR Qwen2.5 checkpoint on Hugging Face"></a>
+  <a href="https://hkust-knowcomp.github.io/GSPR/"><img src="https://img.shields.io/badge/Blog_Post-EN_%2F_ZH-2547ED?style=flat-square&amp;logo=readthedocs&amp;logoColor=white" alt="Blog post in English and Chinese"></a>
+  <a href="docs/assets/gspr3-format-check/SKILL.md"><img src="https://img.shields.io/badge/Skill-Format_Check-2C3C44?style=flat-square&amp;logo=python&amp;logoColor=white" alt="GSPR3 format-check skill"></a>
+</p>
+
+This repository contains the research implementation for **[GSPR: Aligning LLM Safeguards as Generalizable Safety Policy Reasoners](https://arxiv.org/abs/2509.24418)**.
 
 GSPR treats a safety taxonomy as part of the model input instead of fixing one taxonomy during training. Given a prompt or prompt-response pair and a list of safety policies, the model produces:
 
@@ -16,11 +27,21 @@ The training pipeline has two stages:
 
 ## Open-sourced Qwen2.5 GSPR Checkpoint
 
-We open-source our reproducible GSPR Qwen2.5 checkpoint at https://huggingface.co/teapotlid/GSPR_Qwen2.5. Feel free to try it out and leave your comments.
+We open-source our reproducible [GSPR Qwen2.5 checkpoint](https://huggingface.co/teapotlid/GSPR_Qwen2.5) on Hugging Face. Feel free to try it out and leave your comments.
+
+## Blog post
+
+Read our blog post in [English](https://hkust-knowcomp.github.io/GSPR/) or [中文](https://hkust-knowcomp.github.io/GSPR/zh.html). It walks through the motivation, policy examples, training recipe, and experimental results with interactive illustrations.
+
+## GSPR3 format-check skill
+
+We provide a [format-check skill](docs/assets/gspr3-format-check/SKILL.md) for preparing data contributions to the next iteration of GSPR. It checks JSONL structure, safety labels, policy categories, image alignment, and conflicting annotations.
+
+[Download the skill](https://hkust-knowcomp.github.io/GSPR/assets/gspr3-format-check.zip) or [read the specification](docs/assets/gspr3-format-check/SKILL.md). The package includes the skill instructions and a Python checker for reviewing data before training.
 
 ## Joining our GSPR Project
 
-We are currently extending GSPR to agentic safety, multi-modal, and multi-lingual scenarios. If you would like to test or contribute to our model, feel free to contact me and let me know by emailing hlibt@connect.ust.hk.
+At Mode IO, we are extending GSPR to multimodal, multilingual, and agent safety scenarios. We welcome data contributions and compute support for training and evaluation, including datasets, annotations, evaluation scenarios, GPU time, and cloud credits. If you would like to test our model, contribute resources, or collaborate, please contact [Haoran Li](https://teapotliid.github.io/) at [hlibt@connect.ust.hk](mailto:hlibt@connect.ust.hk).
 
 ## Paper summary
 
@@ -260,9 +281,22 @@ The final command in `run_training.sh` currently references the missing filename
 
 
 ## Citation
+
 Please kindly cite our paper if you found our method and resources helpful!
+
+```bibtex
+@misc{li2025gspr,
+  title = {{GSPR}: Aligning {LLM} Safeguards as Generalizable Safety Policy Reasoners},
+  author = {Haoran Li and Jingru Zeng and Yulin Chen and Huihao Jing and Wenbin Hu and Hao Peng and Haochen Shi and Xi Yang and Ziqian Zeng and Sirui Han and Yangqiu Song},
+  year = {2025},
+  eprint = {2509.24418},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CR},
+  doi = {10.48550/arXiv.2509.24418},
+  url = {https://arxiv.org/abs/2509.24418}
+}
+```
 
 ## Miscellaneous
 Please send any questions about the code and/or the method to hlibt@connect.ust.hk.
-<div align="center">
 

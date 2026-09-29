@@ -1,0 +1,4 @@
+interface:
+  display_name: "GSPR3 Format Check"
+  short_description: "Validate GSPR3 JSONL benchmark and training formats."
+  default_prompt: "Check this incoming JSONL file against the GSPR3 format and report invalid rows."

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2547ed">
+  <title>GSPR — Safe according to whose policies?</title>
+  <meta name="description" content="Meet GSPR, a Generalizable Safety Policy Reasoner. A research story about flexible safety policies, explainable moderation, and learning to generalize.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="GSPR — Safe according to whose policies?">
+  <meta property="og:description" content="Towards generalizable safety policy reasoners. Explore the idea, the training recipe, and the experiments.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232547ed'/%3E%3Cpath d='M44 19H24L17 26v19h27V32H31' fill='none' stroke='%23d4fa79' stroke-width='7'/%3E%3C/svg%3E">
+  <link rel="alternate" hreflang="en" href="index.html">
+  <link rel="alternate" hreflang="zh-CN" href="zh.html">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#story">Skip to the article</a>
+  <div class="reading-progress" aria-hidden="true"><span id="reading-progress"></span></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="GSPR home"><span class="brand-mark" aria-hidden="true">G</span>GSPR<span class="brand-separator">/</span><span class="brand-detail">RESEARCH NOTES</span></a>
+      <div class="header-actions"><nav aria-label="Main navigation"><a href="#story">The story</a><a href="https://arxiv.org/abs/2509.24418" target="_blank" rel="noopener noreferrer">Paper</a><a class="nav-github" href="https://github.com/HKUST-KnowComp/GSPR" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.76-.24.76-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.29-1.25-1.63-1.25-1.63-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.71 2.62 1.22 3.27.93.1-.72.39-1.22.71-1.5-2.5-.28-5.12-1.25-5.12-5.56 0-1.23.44-2.24 1.15-3.03-.12-.28-.5-1.43.1-2.98 0 0 .94-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.55.23 2.7.11 2.98.71.79 1.14 1.8 1.14 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.03.76 2.08v3.09c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub</span></a></nav><div class="language-switch" role="group" aria-label="Language"><a class="language-option" href="index.html" lang="en" hreflang="en" aria-current="page" aria-label="Read in English">EN</a><a class="language-option" href="zh.html" lang="zh-CN" hreflang="zh-CN" aria-label="切换到中文">中文</a></div></div>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero page-width" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="edition">01</span> POLICY-AWARE AI SAFETY <span class="edition-line"></span></div>
+        <h1 id="hero-title">Safe according<br>to <em>whose</em><br>policies<span class="blue">?</span></h1>
+        <p class="hero-subtitle">GSPR: Towards Generalizable<br>Safety Policy Reasoners</p>
+        <p class="hero-description">The rules change across applications.<br>A safeguard should be able to reason with them.</p>
+        <div class="hero-actions"><a class="button primary" href="https://arxiv.org/abs/2509.24418" target="_blank" rel="noopener noreferrer">Read the paper</a><a class="button secondary" href="https://huggingface.co/teapotlid/GSPR_Qwen2.5" target="_blank" rel="noopener noreferrer">Explore the model</a></div>
+        <div class="hero-byline"><span class="byline-mark">G</span><span><strong>Haoran Li & the GSPR team</strong><br>HKUST KnowComp <span class="meta-dot">·</span> September 2026</span></div>
+      </div>
+      <div class="hero-visual">
+        <div class="diagram-caption"><span>THE IDEA IN ONE PICTURE</span><span>Fig. 01</span></div>
+        <div class="policy-diagram" role="img" aria-label="Different supplied safety policies feed into GSPR together with the content. GSPR produces a safety decision, a policy category, and an explanation.">
+          <div class="policy-stack"><div class="policy-sheet sheet-back"><span>WORKPLACE POLICY</span><i></i><i></i></div><div class="policy-sheet sheet-mid"><span>PLATFORM POLICY</span><i></i><i></i></div><div class="policy-sheet sheet-front"><span class="sheet-top"><span class="mini-grid" aria-hidden="true">▦</span> YOUR SAFETY POLICIES</span><b>The rules are an input.</b><span class="policy-item"><span>01</span> Academic integrity</span><span class="policy-item"><span>02</span> Privacy & confidentiality</span><span class="policy-item"><span>03</span> Context-specific boundaries</span></div></div>
+          <div class="connector connector-one"><span></span><small>POLICIES + CONTENT</small><span></span></div>
+          <div class="reasoner"><div class="reasoner-icon" aria-hidden="true">G</div><div><b>GSPR</b><span>Generalizable Safety Policy Reasoner</span></div><span class="reasoner-tag">REASON</span></div>
+          <div class="connector connector-two"><span></span></div>
+          <div class="outputs"><div><span class="output-number">01</span><b>Decision</b><small>Safe or unsafe?</small></div><div><span class="output-number">02</span><b>Category</b><small>Which policy?</small></div><div><span class="output-number">03</span><b>Explanation</b><small>Why this decision?</small></div></div>
+        </div>
+        <div class="visual-footnote"><span class="bracket">[</span> Flexible policies. Inspectable decisions. <span class="bracket">]</span></div>
+      </div>
+    </section>
+    <div class="fact-strip page-width" aria-label="GSPR at a glance"><div class="fact-heading">ONE MODEL.<br><span>MANY POLICY WORLDS.</span></div><div><strong>19</strong><span>training taxonomies</span></div><div><strong>167</strong><span>safety policies</span></div><div><strong>2</strong><span>moderation tasks</span></div><a href="https://arxiv.org/html/2509.24418v2#S3" target="_blank" rel="noopener noreferrer">Inside the research<span>Paper · Section 3</span></a></div>
+    <div class="article-layout page-width" id="story">
+      <aside class="contents"><div class="contents-inner"><p class="eyebrow">IN THIS STORY</p><nav aria-label="Table of contents"><a href="#why" class="active"><span>01</span> Why policies matter</a><a href="#policy-lab"><span>02</span> A change of rules</a><a href="#method"><span>03</span> How GSPR works</a><a href="#results"><span>04</span> What we learned</a><a href="#taxonomy"><span>05</span> Designing a taxonomy</a><a href="#join"><span>06</span> Build with us</a></nav><div class="sidebar-note"><span class="small-cross" aria-hidden="true">+</span><p>Safety is a judgment<br>made <em>under a policy.</em></p></div><a class="sidebar-paper" href="https://arxiv.org/abs/2509.24418" target="_blank" rel="noopener noreferrer">Full paper on arXiv</a></div></aside>
+      <article>
+        <details class="mobile-contents"><summary>In this story<span aria-hidden="true">+</span></summary><nav aria-label="Mobile table of contents"><a href="#why">01 · Why policies matter</a><a href="#policy-lab">02 · A change of rules</a><a href="#method">03 · How GSPR works</a><a href="#results">04 · What we learned</a><a href="#taxonomy">05 · Designing a taxonomy</a><a href="#join">06 · Build with us</a></nav></details>
+        <section id="why" class="article-section">
+          <p class="section-kicker">01 / THE MOTIVATION</p>
+          <h2>“Safe” needs a frame<br>of reference.</h2>
+          <p class="lead">A safeguard can tell us whether content is safe. But safe according to whose policies?</p>
+          <p>A school, a workplace, and a public discussion platform may share broad safety concerns while drawing different boundaries. An educational assistant may need explicit rules about academic integrity. A workplace assistant may need to protect confidential information. A single, fixed taxonomy cannot express every application’s requirements.</p>
+          <p>Even a familiar label such as <em>privacy</em> is only a starting point. A useful policy must specify what information is protected, who may access it, and which uses are permitted. The name alone cannot settle the decision.</p>
+          <blockquote>What if we taught a safeguard to<br><em>read the rules</em>, then apply them?</blockquote>
+          <p>We introduce <strong>GSPR, a Generalizable Safety Policy Reasoner</strong> that takes the relevant safety taxonomy as part of its input. It evaluates a user prompt or an assistant response, predicts a safe/unsafe label, identifies the most relevant violated policy, and produces a concise explanation.</p>
+          <div class="task-grid"><div><span class="task-icon">P</span><h3>Prompt safety</h3><p>Does the user’s request violate the supplied policy?</p></div><div><span class="task-icon">R</span><h3>Response safety</h3><p>Does the assistant’s answer violate that policy?</p></div><div><span class="task-icon">C</span><h3>Policy attribution</h3><p>Which category best explains an unsafe decision?</p></div></div>
+          <p>A policy category and an explanation give reviewers something concrete to inspect. They help separate a model mistake from an ambiguous rule, and make moderation decisions easier to challenge and improve.</p>
+        </section>
+        <section id="policy-lab" class="article-section">
+          <p class="section-kicker">02 / A CHANGE OF RULES</p>
+          <h2>Same request.<br>Different policy. Different answer.</h2>
+          <p>The taxonomy is part of the question we ask the safeguard. Change the rule, and the appropriate decision may change—even when the content stays exactly the same.</p>
+          <div class="policy-lab">
+            <div class="lab-topline"><span class="eyebrow">THE POLICY LAB</span><span class="lab-label">Interactive illustration</span></div>
+            <div class="lab-prompt"><span class="code-label">THE REQUEST · UNCHANGED</span><p>“Draft a paragraph for my course essay. <br>I will disclose the AI assistance.”</p></div>
+            <div class="policy-choices" role="group" aria-label="Select an illustrative course policy"><button class="policy-choice selected" data-policy="independent" aria-pressed="true"><span>POLICY A</span>Independent work</button><button class="policy-choice" data-policy="disclosed" aria-pressed="false"><span>POLICY B</span>Disclosed AI assistance</button></div>
+            <div class="lab-grid"><div class="lab-policy"><span class="code-label">THE APPLICABLE RULE</span><h3>Academic integrity</h3><p id="policy-description">Students must write all submitted prose themselves. AI-generated prose is not permitted, even when its use is disclosed.</p></div><div class="lab-output" aria-live="polite" aria-atomic="true"><div class="output-heading"><span class="code-label">EXPECTED DECISION</span><span id="decision-badge" class="decision-badge unsafe">Unsafe</span></div><code id="decision-code">\safety{unsafe}<br>\category{Academic integrity}</code><p id="policy-explanation">Disclosure does not override this course’s requirement that students write the prose themselves.</p></div></div>
+            <p class="lab-disclaimer">Illustrative policies and hand-written judgments; this is not a live GSPR prediction. Real policies and model behavior require evaluation.</p>
+          </div>
+          <p>GSPR makes this policy dependence explicit. Developers can supply a different policy list at inference time without retraining the model from scratch. That flexibility does not guarantee performance on every new taxonomy: unfamiliar definitions still need careful testing.</p>
+        </section>
+
+        <section id="method" class="article-section">
+          <p class="section-kicker">03 / THE TRAINING RECIPE</p>
+          <h2>Teach the reasoning.<br>Reward the right decisions.</h2>
+          <p>Each moderation input combines four pieces: a task instruction, the applicable safety policies, the content to evaluate, and an output specification. The model learns to work with varying policy lists rather than one taxonomy fixed throughout training.</p>
+          <div class="prompt-anatomy" aria-label="The four components of a GSPR input"><div><span>01</span><b>Task</b><small>What to evaluate</small></div><div class="variable"><span>02 · VARIABLE</span><b>Policies</b><small>Which rules apply</small></div><div><span>03</span><b>Content</b><small>Prompt or response</small></div><div><span>04</span><b>Output</b><small>Decision + category</small></div></div>
+          <div class="training-panel">
+            <div class="training-heading"><span class="eyebrow">FROM A BASE MODEL TO GSPR</span><span class="training-mini">SFT + GRPO</span></div>
+            <div class="training-step"><span class="step-number">01</span><div><span class="training-stage">COLD-START SUPERVISED FINE-TUNING</span><h3>Learn to connect content to policy.</h3><p>We distill policy-level explanations from Gemini 2.5 Flash and filter for the expected format and labels. The resulting <strong>1,383 examples</strong> teach the model how to explain a judgment and structure its answer.</p></div></div>
+            <div class="training-step"><span class="step-number">02</span><div><span class="training-stage">GROUP RELATIVE POLICY OPTIMIZATION</span><h3>Improve through verifiable feedback.</h3><p>GRPO compares sampled outputs using rule-based rewards. Correct safety labels, correct policy categories, and the required output format provide the training signal.</p><div class="reward-tags"><span>Safety label</span><span>Policy category</span><span>Output format</span></div></div></div>
+            <div class="training-bottom"><span>TRAINED ACROSS</span><p>Aegis · WildGuard · OR-Bench · GUARDSET-X · BeaverTails · SafeRLHF</p></div>
+          </div>
+          <p>The output contains a reasoning trace in <code>&lt;think&gt;…&lt;/think&gt;</code>, followed by <code>\safety{safe|unsafe}</code> and <code>\category{…}</code>. For unsafe content, the model selects the most relevant category; for safe content, the category is <code>not applicable</code>.</p>
+          <details class="figure-details"><summary>Look inside the moderation prompt<span class="details-icon" aria-hidden="true">+</span></summary><figure><a href="assets/image1.png" target="_blank" rel="noopener noreferrer" aria-label="Open the original prompt template figure at full size"><img src="assets/image1.png" width="1118" height="596" loading="lazy" alt="GSPR input prompt template annotated with its four parts: task instructions, flexible safety policies, user input, and output requirements."></a><figcaption>Fig. 02 · The prompt structure supplied with this post. <a href="https://arxiv.org/html/2509.24418v2#A4.T11" target="_blank" rel="noopener noreferrer">See the full prompt templates in the paper.</a></figcaption></figure></details>
+        </section>
+
+        <section id="results" class="article-section">
+          <p class="section-kicker">04 / THE EVIDENCE</p>
+          <h2>Beyond the policies<br>seen during training.</h2>
+          <p>We evaluate both binary safety prediction and fine-grained category prediction. In-domain evaluation uses Aegis, WildGuard, SafeRLHF, and BeaverTails. Out-of-domain evaluation tests unseen taxonomies from OpenAI Moderation, HEx-PHI, T2T, and Do-Not-Answer.</p>
+          <div class="results-panel">
+            <div class="results-heading"><div><span class="eyebrow">EXPLORE THE RESULTS</span><h3 id="results-question">Can the model name the risk?</h3></div><span class="figure-index">Fig. 03</span></div>
+            <div class="chart-controls"><div class="model-switch" role="group" aria-label="Base model"><button data-model="qwen25" class="selected" aria-pressed="true">Qwen2.5 · 7B</button><button data-model="qwen3" aria-pressed="false">Qwen3 · 8B</button></div><label><span>Evaluation</span><select id="evaluation-select"><option value="ood">Out of domain</option><option value="id">In domain</option></select></label><label><span>Metric</span><select id="metric-select"><option value="category">Category accuracy</option><option value="safety">Safety accuracy</option></select></label></div>
+            <div class="chart-context"><span id="chart-description">Overall category accuracy · unseen taxonomies</span><span>HIGHER IS BETTER</span></div>
+            <div id="result-chart" class="bar-chart" aria-label="Overall category accuracy on unseen taxonomies">
+              <div class="bar-row"><span class="bar-label">Base model</span><div class="bar-track"><span style="width:54.46%"></span></div><b>54.46<span>%</span></b></div>
+              <div class="bar-row"><span class="bar-label">RSafe</span><div class="bar-track"><span style="width:25.23%"></span></div><b>25.23<span>%</span></b></div>
+              <div class="bar-row"><span class="bar-label">Cold-start SFT</span><div class="bar-track"><span style="width:72.63%"></span></div><b>72.63<span>%</span></b></div>
+              <div class="bar-row"><span class="bar-label">GSPR w/o cold start</span><div class="bar-track"><span style="width:56.11%"></span></div><b>56.11<span>%</span></b></div>
+              <div class="bar-row featured"><span class="bar-label">GSPR w/ cold start</span><div class="bar-track"><span style="width:79.7%"></span></div><b>79.70<span>%</span></b></div>
+            </div>
+            <div class="chart-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
+            <div class="result-insight" aria-live="polite" aria-atomic="true"><strong id="chart-gain">+25.24<span>pp</span></strong><p id="chart-insight">Category accuracy over the Qwen2.5 base model on unseen taxonomies, with cold-start SFT and GRPO.</p></div>
+            <p class="chart-source" id="chart-source">Selected same-backbone comparisons from <a href="https://arxiv.org/html/2509.24418v2#S4.T3" target="_blank" rel="noopener noreferrer">Table 3</a>. Overall scores as reported; pp = percentage points. These are benchmark results, not guarantees for a new deployment.</p>
+          </div>
+          <p>The largest lesson is about <strong>fine-grained reasoning</strong>. On the Qwen2.5 backbone, adding cold-start SFT before GRPO raises out-of-domain category accuracy from 56.11% to 79.70%. Predicting the right risk category remains harder than assigning a binary safety label.</p>
+          <div class="evidence-note"><span class="evidence-number">34.10</span><div><strong>words per response, on average</strong><p>The Qwen2.5 GSPR model with cold start produces concise responses in the paper’s in-domain analysis. This is a word-count measure, not a latency or token-cost measurement. <a href="https://arxiv.org/html/2509.24418v2#S4.T4" target="_blank" rel="noopener noreferrer">Table 4</a></p></div></div>
+        </section>
+
+        <section id="taxonomy" class="article-section">
+          <p class="section-kicker">05 / A CLOSER LOOK</p>
+          <h2>The taxonomy shapes<br>what the model learns.</h2>
+          <p class="lead">Should “jailbreak” be a risk category of its own?</p>
+          <p>A jailbreak describes an attempt to bypass a safeguard. The underlying content can still violate a more specific policy. Labeling every jailbreak example simply as <em>jailbreak</em> may blur the distinction between the attack technique and the risk it carries.</p>
+          <p>In an additional ablation, we introduce an explicit jailbreak category and relabel jailbreak examples accordingly. We call this variant <strong>GSPR<sub>JB</sub></strong>. We then evaluate on out-of-domain taxonomies that do not include that category.</p>
+          <div class="ablation-panel"><div class="ablation-head"><div><span class="eyebrow">TAXONOMY ABLATION</span><h3>Overall category accuracy</h3></div><span class="experiment-tag">Additional experiment</span></div><div class="ablation-comparison"><div><span class="comparison-label">WITH COLD START</span><div class="comparison-values"><b>83.30<small>%</small></b><span class="comparison-symbol">→</span><b class="variant">81.63<small>%</small></b></div><div class="comparison-models"><span>GSPR</span><span>GSPR<sub>JB</sub></span></div><span class="drop-label">−1.67 percentage points</span></div><div><span class="comparison-label">WITHOUT COLD START</span><div class="comparison-values"><b>81.87<small>%</small></b><span class="comparison-symbol">→</span><b class="variant">78.18<small>%</small></b></div><div class="comparison-models"><span>GSPR</span><span>GSPR<sub>JB</sub></span></div><span class="drop-label">−3.69 percentage points</span></div></div><p class="chart-source">Source: the authors’ additional taxonomy experiment supplied with this post. This experiment is separate from the main-paper results above.</p></div>
+          <p>The decrease appears in both settings, but its magnitude differs: <strong>1.67 percentage points with cold start, and 3.69 without</strong>. This result suggests that an attack-level label can make it harder to recover the underlying policy category in this experimental setup.</p>
+          <details class="figure-details"><summary>Inspect all reported ablation scores<span class="details-icon" aria-hidden="true">+</span></summary><div class="table-scroll" tabindex="0" role="region" aria-label="Taxonomy ablation scores, scroll horizontally to see all metrics"><table class="ablation-table"><caption>Out-of-domain ablation · S-Acc / S-F1 / C-Acc (%)</caption><thead><tr><th scope="col">Model</th><th scope="col">OpenAI Moderation</th><th scope="col">HEx-PHI</th><th scope="col">T2T</th><th scope="col">Do-Not-Answer</th><th scope="col">Overall</th></tr></thead><tbody><tr><th scope="row">GSPR w/o cold start</th><td>85.00 / 76.91 / 83.50</td><td>97.59 / 98.78 / 63.45</td><td>99.29 / 99.41 / 90.85</td><td>91.68 / 37.10 / 89.67</td><td>93.39 / 78.05 / <b>81.87</b></td></tr><tr><th scope="row">GSPR w/ cold start</th><td>84.76 / 76.43 / 83.00</td><td>98.62 / 99.31 / 67.59</td><td>99.34 / 99.45 / 92.22</td><td>92.01 / 36.97 / 90.42</td><td>93.68 / 78.04 / <b>83.30</b></td></tr><tr><th scope="row">GSPR<sub>JB</sub> w/o cold start</th><td>80.53 / 72.57 / 82.62</td><td>95.86 / 97.89 / 55.17</td><td>99.24 / 99.36 / 84.74</td><td>91.48 / 38.46 / 90.20</td><td>91.78 / 77.07 / <b>78.18</b></td></tr><tr><th scope="row">GSPR<sub>JB</sub> w/ cold start</th><td>85.53 / 77.27 / 83.00</td><td>97.93 / 98.95 / 62.76</td><td>99.24 / 99.36 / 90.35</td><td>91.91 / 36.67 / 90.42</td><td>93.65 / 78.06 / <b>81.63</b></td></tr></tbody></table></div><p class="detail-source"><a href="assets/image2.png" target="_blank" rel="noopener noreferrer">View the original table image</a>. Scores are transcribed from the authors’ figure; overall values are retained as reported.</p></details>
+          <h3 class="prose-heading">A second view: training entropy</h3>
+          <p>We also examine actor entropy during training. The cold-start GSPR run follows a lower-entropy trajectory than the cold-start GSPR<sub>JB</sub> run. The curves are consistent with a change in training behavior, though lower entropy alone does not establish better calibration or safer decisions.</p>
+          <figure class="entropy-figure"><div class="figure-topline"><span class="eyebrow">ACTOR ENTROPY DURING TRAINING</span><a href="assets/image3.png" target="_blank" rel="noopener noreferrer">View full size</a></div><a href="assets/image3.png" target="_blank" rel="noopener noreferrer" aria-label="Open the original training entropy chart at full size"><img src="assets/image3.png" width="1419" height="695" loading="lazy" alt="Original training plot over roughly 1,000 steps. The purple GSPR with cold-start curve stays below the blue jailbreak-category with cold-start curve; orange and green curves rise much higher. Original series labels are preserved."></a><figcaption>Fig. 04 · The authors’ original entropy plot; series labels are preserved as supplied. Entropy describes the training policy’s output distribution, not the correctness of an individual moderation decision.</figcaption></figure>
+          <div class="takeaway"><span class="eyebrow">THE DESIGN LESSON</span><p>Define the harm precisely.<br><em>Give the model a rule it can apply.</em></p></div>
+        </section>
+
+        <section id="join" class="article-section join-section">
+          <p class="section-kicker">06 / BUILD WITH US</p>
+          <h2>More contexts.<br>Better safety policies.</h2>
+          <p>We are extending GSPR towards agentic safety, multimodal inputs, multilingual settings, and domain-specific policies. If you work with safety data or want to test the model in a new setting, we would like to hear from you.</p>
+          <div class="join-tags"><span>Multimodal</span><span>Multilingual</span><span>Domain-specific</span><span>Agentic safety</span></div>
+          <div class="resource-card"><div class="resource-icon" aria-hidden="true">{ }</div><div><span class="eyebrow">CONTRIBUTOR TOOLKIT</span><h3>GSPR3 format-check skill</h3><p>Validate JSONL structure, safety labels, policy categories, image alignment, and conflicting annotations before preparing data for the next iteration of GSPR.</p><a href="assets/gspr3-format-check.zip" class="button primary" download>Download the skill</a><a href="assets/gspr3-format-check/SKILL.md" class="text-link" target="_blank" rel="noopener noreferrer">Read the specification</a></div></div>
+          <details class="figure-details"><summary>Use the data checker<span class="details-icon" aria-hidden="true">+</span></summary><div class="checker-guide"><p>Unzip the toolkit, then run the bundled Python checker from the extracted folder’s parent directory:</p><div class="code-box"><button class="copy-button" data-copy="checker-command">Copy</button><pre id="checker-command">python3 gspr3-format-check/scripts/check_gspr3_jsonl.py \
+  incoming.jsonl --mode auto --report incoming.report.json</pre></div><p>Review errors before training. Keep the input unchanged and save repairs separately. The checker validates the GSPR3 contribution format; it does not run moderation or reproduce the original GSPR experiments.</p></div></details>
+          <div class="contact-line"><span>Have a dataset or a question?</span><a href="mailto:hlibt@connect.ust.hk">hlibt@connect.ust.hk</a></div>
+          <div class="resource-links"><a href="https://github.com/HKUST-KnowComp/GSPR" target="_blank" rel="noopener noreferrer"><span>01</span><strong>Code</strong><small>Training & evaluation</small></a><a href="https://arxiv.org/abs/2509.24418" target="_blank" rel="noopener noreferrer"><span>02</span><strong>Paper</strong><small>Method & experiments</small></a><a href="https://huggingface.co/teapotlid/GSPR_Qwen2.5" target="_blank" rel="noopener noreferrer"><span>03</span><strong>Model</strong><small>Qwen2.5 checkpoint</small></a></div>
+          <details class="figure-details citation-details"><summary>Cite GSPR<span class="details-icon" aria-hidden="true">+</span></summary><div class="code-box"><button class="copy-button" data-copy="citation">Copy BibTeX</button><pre id="citation">@misc{li2025gspr,
+  title = {GSPR: Aligning LLM Safeguards as Generalizable Safety Policy Reasoners},
+  author = {Haoran Li and Jingru Zeng and Yulin Chen and Huihao Jing and Wenbin Hu and Hao Peng and Haochen Shi and Xi Yang and Ziqian Zeng and Sirui Han and Yangqiu Song},
+  year = {2025},
+  eprint = {2509.24418},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CR},
+  url = {https://arxiv.org/abs/2509.24418}
+}</pre></div></details>
+          <p class="article-colophon">Based on <a href="https://arxiv.org/html/2509.24418v2" target="_blank" rel="noopener noreferrer">GSPR, arXiv v2</a> and the authors’ accompanying taxonomy analysis. Project resources checked September 2026.</p>
+        </section>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer page-width"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">G</span>GSPR</a><p>Generalizable Safety Policy Reasoners<br><span>A research project from the GSPR team.</span></p><a href="https://github.com/HKUST-KnowComp/GSPR" target="_blank" rel="noopener noreferrer">Code & resources</a></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

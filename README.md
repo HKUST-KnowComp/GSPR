@@ -5,10 +5,10 @@
 </p>
 
 <p align="center">
-  <a href="https://arxiv.org/abs/2509.24418"><img src="https://img.shields.io/badge/Paper-arXiv-B31B1B?style=flat-square&amp;logo=arxiv&amp;logoColor=white" alt="Paper on arXiv"></a>
-  <a href="https://huggingface.co/teapotlid/GSPR_Qwen2.5"><img src="https://img.shields.io/badge/Checkpoint-Qwen2.5-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=black" alt="GSPR Qwen2.5 checkpoint on Hugging Face"></a>
-  <a href="https://hkust-knowcomp.github.io/GSPR/"><img src="https://img.shields.io/badge/Blog_Post-EN_%2F_ZH-2547ED?style=flat-square&amp;logo=readthedocs&amp;logoColor=white" alt="Blog post in English and Chinese"></a>
-  <a href="docs/assets/gspr3-format-check/SKILL.md"><img src="https://img.shields.io/badge/Skill-Format_Check-2C3C44?style=flat-square&amp;logo=python&amp;logoColor=white" alt="GSPR3 format-check skill"></a>
+  <a href="https://arxiv.org/abs/2509.24418"><img src="https://img.shields.io/badge/Paper-B31B1B?style=flat-square&amp;logo=arxiv&amp;logoColor=ffffff" height="26" alt="Paper on arXiv"></a>
+  <a href="https://huggingface.co/teapotlid/GSPR_Qwen2.5"><img src="https://img.shields.io/badge/Checkpoint-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=152432" height="26" alt="GSPR Qwen2.5 checkpoint on Hugging Face"></a>
+  <a href="https://hkust-knowcomp.github.io/GSPR/"><img src="https://img.shields.io/badge/Blog_Post-2547ED?style=flat-square&amp;logo=readthedocs&amp;logoColor=ffffff" height="26" alt="Blog post in English and Chinese"></a>
+  <a href="docs/assets/gspr3-format-check/SKILL.md"><img src="https://img.shields.io/badge/Format_Check_Skill-2C3C44?style=flat-square&amp;logo=python&amp;logoColor=ffffff" height="26" alt="GSPR3 format-check skill"></a>
 </p>
 
 This repository contains the research implementation for **[GSPR: Aligning LLM Safeguards as Generalizable Safety Policy Reasoners](https://arxiv.org/abs/2509.24418)**.

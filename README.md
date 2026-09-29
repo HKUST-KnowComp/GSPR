@@ -5,10 +5,10 @@
 </p>
 
 <p align="center">
-  <a href="https://arxiv.org/abs/2509.24418"><img src="docs/assets/readme/paper.svg" width="168" height="64" alt="Paper on arXiv"></a>
-  <a href="https://huggingface.co/teapotlid/GSPR_Qwen2.5"><img src="docs/assets/readme/checkpoint.svg" width="168" height="64" alt="GSPR Qwen2.5 checkpoint on Hugging Face"></a>
-  <a href="https://hkust-knowcomp.github.io/GSPR/"><img src="docs/assets/readme/blog.svg" width="168" height="64" alt="Blog post in English and Chinese"></a>
-  <a href="docs/assets/gspr3-format-check/SKILL.md"><img src="docs/assets/readme/skill.svg" width="168" height="64" alt="GSPR3 format-check skill"></a>
+  <a href="https://arxiv.org/abs/2509.24418"><img src="readme/paper.svg" width="168" height="64" alt="Paper on arXiv"></a>
+  <a href="https://huggingface.co/teapotlid/GSPR_Qwen2.5"><img src="readme/checkpoint.svg" width="168" height="64" alt="GSPR Qwen2.5 checkpoint on Hugging Face"></a>
+  <a href="https://hkust-knowcomp.github.io/GSPR/"><img src="readme/blog.svg" width="168" height="64" alt="Blog post in English and Chinese"></a>
+  <a href="docs/assets/gspr3-format-check/SKILL.md"><img src="readme/skill.svg" width="168" height="64" alt="GSPR3 format-check skill"></a>
 </p>
 
 This repository contains the research implementation for **[GSPR: Aligning LLM Safeguards as Generalizable Safety Policy Reasoners](https://arxiv.org/abs/2509.24418)**.
